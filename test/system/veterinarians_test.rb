@@ -20,6 +20,33 @@ class VeterinariansTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
+  test "should create Veterinarian with valid international phone number format" do
+    visit veterinarians_url
+    click_on "New Veterinarian"
+
+    fill_in "Name", with: "Karl"
+    fill_in "Status", with: "available"
+    fill_in "Number", with: "+09876589365"
+
+    click_on "Create Veterinarian"
+
+    assert_text "Veterinarian was successfully created"
+    click_on "Back"
+  end
+
+  test "should not create Veterinarian with invalid international phone number format" do
+    visit veterinarians_url
+    click_on "New Veterinarian"
+
+    fill_in "Name", with: "Kris"
+    fill_in "Status", with: "available"
+    fill_in "Number", with: "1234567890"
+
+    click_on "Create Veterinarian"
+
+    assert_text "Phone number must be in a valid international format"
+  end
+
   test "updating a Veterinarian" do
     visit veterinarians_url
     click_on "Edit", match: :first
