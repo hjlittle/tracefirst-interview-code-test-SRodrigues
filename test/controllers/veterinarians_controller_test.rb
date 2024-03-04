@@ -36,6 +36,25 @@ class VeterinariansControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'should create veterinarian with valid international phone number format' do
+    assert_difference('Veterinarian.count') do
+      post veterinarians_url, params: { veterinarian: { name: 'Karl',
+                                                        status: 'available',
+                                                        admin: false,
+                                                        number: '+09876589365' } }
+    end
+    assert_redirected_to veterinarian_url(Veterinarian.last)
+  end
+
+  test 'should not create veterinarian with invalid international phone number format' do
+    assert_no_difference('Veterinarian.count') do
+      post veterinarians_url, params: { veterinarian: { name: 'Kris',
+                                                        status: 'available',
+                                                        admin: false, 
+                                                        number: '1234567890' } }
+    end
+  end
+
   test 'should update veterinarian' do
     patch veterinarian_url(@veterinarian), params: { veterinarian: { name: 'Karl',
                                                                      status: 'unavailable',
