@@ -20,6 +20,17 @@ class AnimalsTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
+  # test to check if animals are not created with duplicate unique tags
+  test "does not allow creating an animal with a duplicate unique_tag" do
+    visit animals_url
+    click_on "New Animal"
+
+    fill_in "Unique tag", with: @animal.unique_tag
+    click_on "Create Animal"
+
+    assert_text "Unique tag has already been taken"
+  end
+
   test "updating a Animal" do
     visit animals_url
     click_on "Edit", match: :first

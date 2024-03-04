@@ -25,6 +25,15 @@ class AnimalsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to animal_url(Animal.last)
   end
 
+  # create a duplicate animal with the same unique_tag
+  test 'should not save animal with duplicate unique_tag' do
+    duplicate_animal = @animal.dup
+    duplicate_animal.save
+
+    assert_not duplicate_animal.valid?
+    assert_includes duplicate_animal.errors.full_messages, 'Unique tag has already been taken'
+  end
+
   test 'should show animal' do
     get animal_url(@animal)
     assert_response :success
