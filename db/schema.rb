@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_21_141910) do
+ActiveRecord::Schema.define(version: 2024_03_05_025724) do
 
   create_table "animals", force: :cascade do |t|
     t.string "unique_tag"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2022_11_21_141910) do
     t.date "birth_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_animals_on_deleted_at"
   end
 
   create_table "tests", force: :cascade do |t|
@@ -40,6 +42,8 @@ ActiveRecord::Schema.define(version: 2022_11_21_141910) do
     t.string "number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_veterinarians_on_deleted_at"
   end
 
   add_foreign_key "tests", "animals"

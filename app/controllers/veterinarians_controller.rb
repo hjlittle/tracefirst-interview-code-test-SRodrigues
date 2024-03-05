@@ -3,7 +3,7 @@ class VeterinariansController < ApplicationController
   rescue_from ActiveRecord::InvalidForeignKey, with: :invalid_foreign_key
 
   def index
-    @veterinarians = Veterinarian.all
+    @veterinarians = Veterinarian.where(deleted_at: nil)
   end
 
   def show; end
@@ -41,9 +41,9 @@ class VeterinariansController < ApplicationController
   end
 
   def destroy
-    @veterinarian.destroy
+    @veterinarian.soft_delete
     respond_to do |format|
-      format.html { redirect_to veterinarians_url, notice: 'Veterinarian was successfully destroyed.' }
+      format.html { redirect_to veterinarians_url, notice: 'Veterinarian was successfully soft deleted.' }
       format.json { head :no_content }
     end
   end
