@@ -30,7 +30,8 @@ class VeterinariansController < ApplicationController
 
   def update
     respond_to do |format|
-      if @veterinarian.update(veterinarian_params)
+      #except admin parameter when updating veterinarian
+      if @veterinarian.update(veterinarian_params.except(:admin))
         format.html { redirect_to @veterinarian, notice: 'Veterinarian was successfully updated.' }
         format.json { render :show, status: :ok, location: @veterinarian }
       else
