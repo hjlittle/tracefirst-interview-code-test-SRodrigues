@@ -3,7 +3,7 @@ class AnimalsController < ApplicationController
   rescue_from ActiveRecord::InvalidForeignKey, with: :invalid_foreign_key
 
   def index
-    @animals = Animal.all
+    @animals = Animal.where(deleted_at: nil)
   end
 
   def show; end
@@ -33,10 +33,11 @@ class AnimalsController < ApplicationController
   end
 
   def destroy
-    if @animal.destroy
-      redirect_to animals_path, notice: 'Animal was successfully destroyed'
+    #use soft delete function to delete the animal
+    if @animal.soft_delete
+      redirect_to animals_path, notice: 'Animal was marked as deleted'
     else
-      redirect_to animals_path, error: 'Animal could not be destroyed'
+      redirect_to animals_path, error: 'Animal could not be deleted'
     end
   end
 
