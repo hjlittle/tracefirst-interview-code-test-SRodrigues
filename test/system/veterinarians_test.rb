@@ -30,6 +30,15 @@ class VeterinariansTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
+  test "updating a Veterinarian with admin access" do
+    visit veterinarians_url
+    click_on "Edit", match: :first  
+    check "Admin"
+    click_on "Update Veterinarian"  
+    assert_text "Veterinarian cannot be updated with admin access"
+    click_on "Back"
+  end
+
   test "destroying a Veterinarian" do
     visit veterinarians_url
     page.accept_confirm do

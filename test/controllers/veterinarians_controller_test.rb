@@ -44,6 +44,19 @@ class VeterinariansControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to veterinarian_url(@veterinarian)
   end
 
+  test 'should not update veterinarian for admin access' do
+    assert_no_changes -> { @veterinarian.reload.admin } do
+      begin 
+        patch veterinarian_url(@veterinarian), params: { veterinarian: { name: 'Karl',
+                                                                        status: 'unavailable',
+                                                                        admin: true,
+                                                                        number: '+09876989365' } }
+      rescue StandardError => e
+        assert_equal e.message, 'Veterinarian cannot be updated with admin access'
+      end
+    end
+  end
+
   test 'should destroy veterinarian' do
     assert_difference('Veterinarian.count', -1) do
       delete veterinarian_url(veterinarians(:veterinarian_two))
